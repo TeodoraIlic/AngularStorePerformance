@@ -11,18 +11,18 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ProductService {
-  movies: any = (data as any).default;
+  // movies: any = (data as any).default;
+  productUrl: string = "https://api.myjson.com/bins/zcrhi";
 
-  constructor() { }
 
-  getAllMovies() {
-    return [...this.movies]
+
+  constructor(private http: HttpClient) { }
+
+  getAllMovies(): Observable<any[]> {
+    return this.http.get<any[]>(this.productUrl);
   }
-  getMovie(id: number) {
-    return {
-      ...this.movies.find(movie => {
-        return movie.id === id;
-      })
-    }
+  getMovie(id: number): Observable<any> {
+    const url = `${this.productUrl}/${id}`;
+    return this.http.get<any>(url);
   }
 }
